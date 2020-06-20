@@ -1,0 +1,16 @@
+{
+  "name": "Kasut Kedas",
+  "short_name": "Kasut Kedas",
+  "description": "Kedasin kasut, kasut kedas aja",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#FFC048",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

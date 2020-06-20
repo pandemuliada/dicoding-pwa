@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Informasi Sepak Bola</title>
+</head>
+<body>
+  <nav class="blue darken-1" role="navigation">
+    <div class="nav-wrapper container">
+      <a href="#" class="brand-logo" id="logo-container">Info Bola</a>
+      <a href="#" class="sidenav-trigger" data-target="nav-mobile">☰</a>
+      
+      <ul class="topnav right hide-on-med-and-down"></ul>
+      <ul class="sidenav" id="nav-mobile"></ul>
+    </div>
+  </nav>
+
+  <div id="root">
+
+  </div>
+  
+  <script src="/js/api.js"></script>
+  <script src="/js/helpers.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="/js/materialize.min.js"></script>
+  <script>
+    onPageLoaded(() => {
+      
+      // Check Service Worker in browser
+      if (!('serviceWorker' in navigator)) {
+        console.log("This browser doesn't support service worker.")
+      } else {
+        registerServiceWorker()
+      }
+
+      // Register Service Worker
+      function registerServiceWorker() {
+        navigator.serviceWorker.register('/service-worker.js')
+        .then(function (registration) {
+          console.log('Registrasi service worker berhasil.')
+          return registration
+        })
+        .catch(function (err) {
+          console.error('Registrasi service worker gagal.', err)
+        })
+      }
+
+      // Subscribe Push Message
+      if ('PushManager' in window) {
+        navigator.serviceWorker.getRegistration().then((registration) => {
+          registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array('BCAaufkVbpiXRcCj2dko4_wLO4V7cANgdlPUglHJmwfEl6VqU2M8lu4vkEKtl3xjZYbjeSf8nneckXeNv0hOTnw')
+          }).then((subscribe) => {
+            console.log('Berhasil melakukan subscribe dengan endpoint: ', subscribe.endpoint);
+            console.log('Berhasil melakukan subscribe dengan p256dh key: ', btoa(String.fromCharCode.apply(null, new Uint8Array(subscribe.getKey('p256dh')))));
+            console.log('Berhasil melakukan subscribe dengan auth key: ', btoa(String.fromCharCode.apply(null, new Uint8Array(subscribe.getKey('auth')))));
+          })
+        })
+      }
+
+
+  })
+  </script>
+</body>
+</html>
